@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Екатерина Коваль](https://up.htmlacademy.ru/javascript/23/user/1607509).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Кислый](https://htmlacademy.ru/profile/smart-grizzly).
 
 ---
 
