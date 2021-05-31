@@ -1,5 +1,5 @@
 // Функция, возвращающая случайное целое число из переданного диапазона включительно
-function getInteger(min, max) {
+const getInteger = (min, max) => {
   //если переданы отрицательные значения
   if (min < 0 || max < 0) {
     return 'Диапазон передан не корректно: минимальное/максимальное значения ожидаются положительные числа (включая ноль)';
@@ -11,12 +11,12 @@ function getInteger(min, max) {
   }
 
   return Math.ceil(Math.random() * (max - min) + min);
-}
+};
 
 getInteger();
 
 //Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
-function getFloat (min, max, fixed) {
+const getFloat = (min, max, fixed) => {
   if (min < 0 || max < 0) {
     return 'Диапазон передан не корректно: минимальное/максимальное значения ожидаются положительные числа (включая ноль)';
   }
@@ -26,7 +26,7 @@ function getFloat (min, max, fixed) {
   }
 
   return (Math.random() * (max - min) + min).toFixed(fixed);
-}
+};
 
 getFloat ();
 
