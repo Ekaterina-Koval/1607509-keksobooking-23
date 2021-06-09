@@ -1,6 +1,6 @@
 // Константы для генерации временных данных
 const ADVERTISEMENT_LIST_LENGTH = 10;
-const INTEGER_ARRAY_ADVERTISEMENT_LENGTH = Array.from({length: ADVERTISEMENT_LIST_LENGTH}, (v, i) => i + 1);
+const INTEGER_ARRAY_ADVERTISEMENT_LENGTH = Array.from({ length: ADVERTISEMENT_LIST_LENGTH }, (v, i) => i + 1);
 const TITLE = [
   '(01) Лучшее предложение! Спешите забронировать до конца недели.',
   '(02) Комфорт и уют наше кредо. Почувствуйте себя как дома',
@@ -51,38 +51,39 @@ const DESCRIPTION = [
   '(10) Многочисленные магазины, различные рестораны, и супермаркет всего в 1 минуте, это идеальное место, чтобы пережить опыт жителя Токио, наслаждаясь доступом к близлежащим туристическим достопримечательностям.',
 ];
 
+
 // Утилитарные функции
 //Получение случайного целого число из диапазона
-const getInteger = (min, max) => {
-  if (min < 0 || (min > max)) {
-    return 'Ошибка ввода данных';
-  }
-  return Math.round(Math.random() * (max - min) + min);
+const getRandomPositiveInteger = (a, b) => {
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
 };
 //Получение случайного числа с плавающей точкой из диапазона
-const getFloat = (min, max, fixed) => {
-  if (min < 0 || (fixed < 0 || !Number.isInteger(fixed)) || (min >= max) || (min.toFixed(fixed) === max.toFixed(fixed))) {
-    return 'Ошибка ввода данных';
-  }
-  return (Math.random() * (max - min) + min).toFixed(fixed);
+const getRandomPositiveFloat = (a, b, digits = 1) => {
+  const lower = Math.min(Math.abs(a), Math.abs(b));
+  const upper = Math.max(Math.abs(a), Math.abs(b));
+  const result = Math.random() * (upper - lower) + lower;
+  return result.toFixed(digits);
 };
 // Получение случайного элемента из массива
-const getRandomArrayElement = (elements) => elements[getInteger(0, elements.length - 1)];
+const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 //Нахождениение не повторяющегося значения:
 const getRandomItemNoRepeat = (array) => {
-  const randomElement = getInteger(0, array.length - 1);
+  const randomElement = getRandomPositiveInteger(0, array.length - 1);
   const randomElementItem = array[randomElement];
   array.splice(randomElement, 1);
   return randomElementItem;
 };
 // Создание из исходного массива, массива произвольной длины
-const createRandomArray = (array) => new Array (0, array.length - 1).fill(null).map(() => getRandomItemNoRepeat(array));
+const createRandomArray = (array) => new Array(0, array.length - 1).fill(null).map(() => getRandomItemNoRepeat(array));
 
 // Создание временного объекта - объявления пользователя
 const createAdvertisement = () => {
   const userAvatar = (`0${getRandomItemNoRepeat(INTEGER_ARRAY_ADVERTISEMENT_LENGTH)}`).slice(-2);
-  const locationX = getFloat(35.65000, 35.70000, 5);
-  const locationY = getFloat(139.7, 139.8, 5);
+  const locationX = getRandomPositiveFloat(35.65000, 35.70000, 5);
+  const locationY = getRandomPositiveFloat(139.7, 139.8, 5);
   return {
     author: {
       avatar: `img/avatars/user${userAvatar}.png`,
@@ -90,10 +91,10 @@ const createAdvertisement = () => {
     offer: {
       title: getRandomItemNoRepeat(TITLE),
       address: `${locationX}, ${locationY}`,
-      price: getInteger(0, 1000000),
+      price: getRandomPositiveInteger(0, 1000000),
       type: getRandomArrayElement(TYPE),
-      rooms: getInteger(1, 3),
-      guests: getInteger(1, 6),
+      rooms: getRandomPositiveInteger(1, 3),
+      guests: getRandomPositiveInteger(1, 6),
       checkin: getRandomArrayElement(TIMES),
       checkout: getRandomArrayElement(TIMES),
       features: createRandomArray(FEATURES),
@@ -109,4 +110,4 @@ const createAdvertisement = () => {
 // Создание массива временных объектов заданной длины (10 элементов)
 const advertisementList = new Array(ADVERTISEMENT_LIST_LENGTH).fill(null).map(() => createAdvertisement());
 
-advertisementList;
+advertisementList();
