@@ -1,9 +1,7 @@
 import {getRandomPositiveInteger, getRandomPositiveFloat} from './utils/get-random-numbers.js';
 import {getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from './utils/get-random-array.js';
 
-// Константы для генерации временных данных
 const ADVERTISEMENT_LIST_LENGTH = 10;
-const INTEGER_ARRAY_ADVERTISEMENT_LENGTH = Array.from({ length: ADVERTISEMENT_LIST_LENGTH }, (v, i) => i + 1);
 const TITLE = [
   '(01) Лучшее предложение! Спешите забронировать до конца недели.',
   '(02) Комфорт и уют наше кредо. Почувствуйте себя как дома',
@@ -16,6 +14,18 @@ const TITLE = [
   '(09) Отличная цена! Вам понравится наше предложение!',
   '(10) Не возможно удержаться от того, чтобы не вернуться ещё раз',
 ];
+const PRICE = {
+  minPrice: 1,
+  maxPrice: 1000000,
+};
+const ROOMS = {
+  minRooms: 1,
+  maxRooms: 100,
+};
+const GUESTS = {
+  minGuests: 1,
+  maxGuests: 100,
+};
 const TYPE = [
   'palace',
   'flat',
@@ -53,23 +63,27 @@ const DESCRIPTION = [
   '(09) Тихое и спокойное место ночью, но активная и привлекательная зона днем.',
   '(10) Многочисленные магазины, различные рестораны, и супермаркет всего в 1 минуте, это идеальное место, чтобы пережить опыт жителя Токио, наслаждаясь доступом к близлежащим туристическим достопримечательностям.',
 ];
+const LOCATION = {
+  lat: {latMin: 35.65000, latMax: 35.70000},
+  lng: {lngMin: 139.7, lngMax: 139.8},
+};
 
-// Создание временного объекта - объявления пользователя
 const createAdvertisement = () => {
-  const userAvatar = (`0${getRandomItemNoRepeat(INTEGER_ARRAY_ADVERTISEMENT_LENGTH)}`).slice(-2);
-  const locationX = getRandomPositiveFloat(35.65000, 35.70000, 5);
-  const locationY = getRandomPositiveFloat(139.7, 139.8, 5);
+  const userAvatarIdArray = Array.from({ length: ADVERTISEMENT_LIST_LENGTH }, (v, i) => i + 1);
+  const userAvatar = (`0${getRandomItemNoRepeat(userAvatarIdArray)}`).slice(-2);
+  const locationLat = getRandomPositiveFloat(LOCATION.lat.latMin, LOCATION.lat.latMax,5);
+  const locationLng = getRandomPositiveFloat(LOCATION.lng.lngMin, LOCATION.lng.lngMax, 5);
   return {
     author: {
       avatar: `img/avatars/user${userAvatar}.png`,
     },
     offer: {
       title: getRandomItemNoRepeat(TITLE),
-      address: `${locationX}, ${locationY}`,
-      price: getRandomPositiveInteger(0, 1000000),
+      address: `${locationLat}, ${locationLng}`,
+      price: getRandomPositiveInteger(PRICE.minPrice, PRICE.maxPrice),
       type: getRandomArrayElement(TYPE),
-      rooms: getRandomPositiveInteger(1, 3),
-      guests: getRandomPositiveInteger(1, 6),
+      rooms: getRandomPositiveInteger(ROOMS.minRooms, ROOMS.maxRooms),
+      guests: getRandomPositiveInteger(GUESTS.minGuests, GUESTS.maxGuests),
       checkin: getRandomArrayElement(TIMES),
       checkout: getRandomArrayElement(TIMES),
       features: createRandomArray(FEATURES),
@@ -77,11 +91,12 @@ const createAdvertisement = () => {
       photos: createRandomArray(PHOTOS),
     },
     location: {
-      lat: locationX,
-      lng: locationY,
+      lat: locationLat,
+      lng: locationLng,
     },
   };
 };
+
 // Создание массива временных объектов заданной длины (10 элементов)
 const advertisementList = new Array(ADVERTISEMENT_LIST_LENGTH).fill(null).map(() => createAdvertisement());
 
