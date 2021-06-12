@@ -1,3 +1,3 @@
-import {advertisementList} from './create-temporary-data.js';
+import {createAdvertisementList} from './create-temporary-data.js';
 
-advertisementList;
+createAdvertisementList();

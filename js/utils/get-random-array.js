@@ -13,4 +13,3 @@ const getRandomItemNoRepeat = (array) => {
 const createRandomArray = (array) => new Array(0, array.length - 1).fill(null).map(() => getRandomItemNoRepeat(array));
 
 export {getRandomItemNoRepeat, getRandomArrayElement, createRandomArray};
-

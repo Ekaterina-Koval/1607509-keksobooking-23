@@ -68,36 +68,40 @@ const LOCATION = {
   lng: {lngMin: 139.7, lngMax: 139.8},
 };
 
-const createAdvertisement = () => {
-  const userAvatarIdArray = Array.from({ length: ADVERTISEMENT_LIST_LENGTH }, (v, i) => i + 1);
-  const userAvatar = (`0${getRandomItemNoRepeat(userAvatarIdArray)}`).slice(-2);
-  const locationLat = getRandomPositiveFloat(LOCATION.lat.latMin, LOCATION.lat.latMax,5);
-  const locationLng = getRandomPositiveFloat(LOCATION.lng.lngMin, LOCATION.lng.lngMax, 5);
-  return {
-    author: {
-      avatar: `img/avatars/user${userAvatar}.png`,
-    },
-    offer: {
-      title: getRandomItemNoRepeat(TITLE),
-      address: `${locationLat}, ${locationLng}`,
-      price: getRandomPositiveInteger(PRICE.minPrice, PRICE.maxPrice),
-      type: getRandomArrayElement(TYPE),
-      rooms: getRandomPositiveInteger(ROOMS.minRooms, ROOMS.maxRooms),
-      guests: getRandomPositiveInteger(GUESTS.minGuests, GUESTS.maxGuests),
-      checkin: getRandomArrayElement(TIMES),
-      checkout: getRandomArrayElement(TIMES),
-      features: createRandomArray(FEATURES),
-      description: getRandomItemNoRepeat(DESCRIPTION),
-      photos: createRandomArray(PHOTOS),
-    },
-    location: {
-      lat: locationLat,
-      lng: locationLng,
-    },
-  };
+const createAdvertisementList = () => {
+  const advertisementList = new Array(ADVERTISEMENT_LIST_LENGTH);
+  for (let i = 0; i < advertisementList.length; i++) {
+    const createAdvertisement = () => {
+      const userAvatarIdArray = Array.from({ length: ADVERTISEMENT_LIST_LENGTH }, (v, j) => j + 1);
+      const userAvatar = (`0${getRandomItemNoRepeat(userAvatarIdArray)}`).slice(-2);
+      const locationLat = getRandomPositiveFloat(LOCATION.lat.latMin, LOCATION.lat.latMax,5);
+      const locationLng = getRandomPositiveFloat(LOCATION.lng.lngMin, LOCATION.lng.lngMax, 5);
+      return {
+        author: {
+          avatar: `img/avatars/user${userAvatar}.png`,
+        },
+        offer: {
+          title: getRandomItemNoRepeat(TITLE),
+          address: `${locationLat}, ${locationLng}`,
+          price: getRandomPositiveInteger(PRICE.minPrice, PRICE.maxPrice),
+          type: getRandomArrayElement(TYPE),
+          rooms: getRandomPositiveInteger(ROOMS.minRooms, ROOMS.maxRooms),
+          guests: getRandomPositiveInteger(GUESTS.minGuests, GUESTS.maxGuests),
+          checkin: getRandomArrayElement(TIMES),
+          checkout: getRandomArrayElement(TIMES),
+          features: createRandomArray(FEATURES),
+          description: getRandomItemNoRepeat(DESCRIPTION),
+          photos: createRandomArray(PHOTOS),
+        },
+        location: {
+          lat: locationLat,
+          lng: locationLng,
+        },
+      };
+    };
+    advertisementList[i] = createAdvertisement();
+  }
+  return advertisementList;
 };
 
-// Создание массива временных объектов заданной длины (10 элементов)
-const advertisementList = new Array(ADVERTISEMENT_LIST_LENGTH).fill(null).map(() => createAdvertisement());
-
-export {advertisementList};
+export {createAdvertisementList};
