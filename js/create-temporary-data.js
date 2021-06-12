@@ -2,6 +2,8 @@ import { getRandomPositiveInteger, getRandomPositiveFloat } from './utils/get-ra
 import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from './utils/get-random-array.js';
 
 const advertData = {
+  advertListLength: 10,
+  avtor: 'img/avatars/user',
   title: [
     '(01) Лучшее предложение! Спешите забронировать до конца недели.',
     '(02) Комфорт и уют наше кредо. Почувствуйте себя как дома',
@@ -64,24 +66,21 @@ const advertData = {
     '(10) Многочисленные магазины, различные рестораны, и супермаркет всего в 1 минуте, это идеальное место, чтобы пережить опыт жителя Токио, наслаждаясь доступом к близлежащим туристическим достопримечательностям.',
   ],
   location: {
-    lat: { latMin: 35.65000, latMax: 35.70000 },
-    lng: { lngMin: 139.7, lngMax: 139.8 },
+    latMin: 35.65000,
+    latMax: 35.70000,
+    lngMin: 139.7,
+    lngMax: 139.8,
   },
 };
 
 const createAdvertList = () => {
-  const advertListLength = 10;
-  const advertList = new Array(advertListLength);
+  const advertList = new Array(advertData.advertListLength);
   for (let i = 0; i < advertList.length; i++) {
     const createAdvert = () => {
-      const userAvatarIdArray = Array.from({ length: advertListLength }, (v, j) => j + 1);
-      const userAvatar = (`0${getRandomItemNoRepeat(userAvatarIdArray)}`).slice(-2);
-      const locationLat = getRandomPositiveFloat(advertData.location.lat.latMin, advertData.location.lat.latMax, 5);
-      const locationLng = getRandomPositiveFloat(advertData.location.lng.lngMin, advertData.location.lng.lngMax, 5);
+      const locationLat = getRandomPositiveFloat(advertData.location.latMin, advertData.location.latMax, 5);
+      const locationLng = getRandomPositiveFloat(advertData.location.lngMin, advertData.location.lngMax, 5);
       return {
-        author: {
-          avatar: `img/avatars/user${userAvatar}.png`,
-        },
+        author: `${advertData.avtor}0${i+1}.png`,
         offer: {
           title: getRandomItemNoRepeat(advertData.title),
           address: `${locationLat}, ${locationLng}`,
