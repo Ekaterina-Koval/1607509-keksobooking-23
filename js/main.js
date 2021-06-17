@@ -1,3 +1,4 @@
-import { createAdvertList } from './create-temporary-data.js';
+import { createCardList } from './create-temporary-data.js';
+import './create-markup-cards.js';
 
-createAdvertList();
+createCardList();

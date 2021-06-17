@@ -1,20 +1,20 @@
 import { getRandomPositiveInteger, getRandomPositiveFloat } from './utils/get-random-numbers.js';
 import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from './utils/get-random-array.js';
 
-const advertData = {
-  advertListLength: 10,
-  avtor: 'img/avatars/user',
+const cardData = {
+  cardListLength: 10,
+  author: 'img/avatars/user',
   title: [
-    '(01) Лучшее предложение! Спешите забронировать до конца недели.',
-    '(02) Комфорт и уют наше кредо. Почувствуйте себя как дома',
-    '(03) Остановившись у нас, вы не забудете Токио никогда!',
-    '(04) Предложение для самых требовательных',
-    '(05) Cashback 10% и экскурсия на выбор в подарок',
-    '(06) Бронируйте сейчас - платите потом.',
-    '(07) Незабываемый отдых в лучшем районе столицы Японии',
-    '(08) Великолепный вид из окна, удобное расположение',
-    '(09) Отличная цена! Вам понравится наше предложение!',
-    '(10) Не возможно удержаться от того, чтобы не вернуться ещё раз',
+    'Лучшее предложение! Спешите забронировать до конца недели.',
+    'Комфорт и уют наше кредо. Почувствуйте себя как дома',
+    'Остановившись у нас, вы не забудете Токио никогда!',
+    'Предложение для самых требовательных',
+    'Cashback 10% и экскурсия на выбор в подарок',
+    'Бронируйте сейчас - платите потом.',
+    'Незабываемый отдых в лучшем районе столицы Японии',
+    'Великолепный вид из окна, удобное расположение',
+    'Отличная цена! Вам понравится наше предложение!',
+    'Не возможно удержаться от того, чтобы не вернуться ещё раз',
   ],
   price: {
     minPrice: 1,
@@ -22,11 +22,11 @@ const advertData = {
   },
   rooms: {
     minRooms: 1,
-    maxRooms: 100,
+    maxRooms: 3,
   },
   guests: {
     minGuests: 1,
-    maxGuests: 100,
+    maxGuests: 9,
   },
   type: [
     'palace',
@@ -54,16 +54,16 @@ const advertData = {
     'conditioner',
   ],
   description: [
-    '(01) Хорошее место для доступа в любую точку Токио, но это очень тихий, чистый и безопасный жилой район.',
-    '(02) Очень красивая территория с детскими и спортивными площадками.',
-    '(03) Тихий, безопасный и красивый жилой район, недалеко от центра города на поезде с удобным транспортным сообщением.',
-    '(04) У нас есть дополнительный велосипед для гостей, чтобы они могли кататься по окрестностям или на вокзал.',
-    '(05) Комната реконструирована в прошлом году, компромисс между японским и западным стилями, на стене висит картина.',
-    '(06) Здесь так красиво в сезон полного цветения сакуры.',
-    '(07) Дорога к станции, по обе стороны реки обсажена вишневыми деревьями.',
-    '(08) Полностью отремонтированное, меблированное высококачественное жильё в центре Токио. Полностью оборудованная кухня и ванные комнаты.',
-    '(09) Тихое и спокойное место ночью, но активная и привлекательная зона днем.',
-    '(10) Многочисленные магазины, различные рестораны, и супермаркет всего в 1 минуте, это идеальное место, чтобы пережить опыт жителя Токио, наслаждаясь доступом к близлежащим туристическим достопримечательностям.',
+    'Хорошее место для доступа в любую точку Токио, но это очень тихий, чистый и безопасный жилой район.',
+    'Очень красивая территория с детскими и спортивными площадками.',
+    'Тихий, безопасный и красивый жилой район, недалеко от центра города на поезде с удобным транспортным сообщением.',
+    'У нас есть дополнительный велосипед для гостей, чтобы они могли кататься по окрестностям или на вокзал.',
+    'Комната реконструирована в прошлом году, компромисс между японским и западным стилями, на стене висит картина.',
+    'Здесь так красиво в сезон полного цветения сакуры.',
+    'Дорога к станции, по обе стороны реки обсажена вишневыми деревьями.',
+    'Полностью отремонтированное, меблированное высококачественное жильё в центре Токио. Полностью оборудованная кухня и ванные комнаты.',
+    'Тихое и спокойное место ночью, но активная и привлекательная зона днем.',
+    'Многочисленные магазины, различные рестораны, и супермаркет всего в 1 минуте, это идеальное место, чтобы пережить опыт жителя Токио, наслаждаясь доступом к близлежащим туристическим достопримечательностям.',
   ],
   location: {
     latMin: 35.65000,
@@ -73,26 +73,26 @@ const advertData = {
   },
 };
 
-const createAdvertList = () => {
-  const advertList = new Array(advertData.advertListLength);
-  for (let i = 0; i < advertList.length; i++) {
-    const createAdvert = () => {
-      const locationLat = getRandomPositiveFloat(advertData.location.latMin, advertData.location.latMax, 5);
-      const locationLng = getRandomPositiveFloat(advertData.location.lngMin, advertData.location.lngMax, 5);
+const createCardList = () => {
+  const cardList = new Array(cardData.cardListLength);
+  for (let i = 0; i < cardList.length; i++) {
+    const createCard = () => {
+      const locationLat = getRandomPositiveFloat(cardData.location.latMin, cardData.location.latMax, 5);
+      const locationLng = getRandomPositiveFloat(cardData.location.lngMin, cardData.location.lngMax, 5);
       return {
-        author: `${advertData.avtor}0${i+1}.png`,
+        author: `${cardData.author}${(`0${i + 1}`).slice(-2)}.png`,
         offer: {
-          title: getRandomItemNoRepeat(advertData.title),
+          title: getRandomItemNoRepeat(cardData.title),
           address: `${locationLat}, ${locationLng}`,
-          price: getRandomPositiveInteger(advertData.price.minPrice, advertData.price.maxPrice),
-          type: getRandomArrayElement(advertData.type),
-          rooms: getRandomPositiveInteger(advertData.rooms.minRooms, advertData.rooms.maxRooms),
-          guests: getRandomPositiveInteger(advertData.guests.minGuests, advertData.guests.maxGuests),
-          checkin: getRandomArrayElement(advertData.times),
-          checkout: getRandomArrayElement(advertData.times),
-          features: createRandomArray(advertData.features),
-          description: getRandomItemNoRepeat(advertData.description),
-          photos: createRandomArray(advertData.photos),
+          price: getRandomPositiveInteger(cardData.price.minPrice, cardData.price.maxPrice),
+          type: getRandomArrayElement(cardData.type),
+          rooms: getRandomPositiveInteger(cardData.rooms.minRooms, cardData.rooms.maxRooms),
+          guests: getRandomPositiveInteger(cardData.guests.minGuests, cardData.guests.maxGuests),
+          checkin: getRandomArrayElement(cardData.times),
+          checkout: getRandomArrayElement(cardData.times),
+          features: createRandomArray(cardData.features),
+          description: getRandomItemNoRepeat(cardData.description),
+          photos: createRandomArray(cardData.photos),
         },
         location: {
           lat: locationLat,
@@ -100,9 +100,9 @@ const createAdvertList = () => {
         },
       };
     };
-    advertList[i] = createAdvert();
+    cardList[i] = createCard();
   }
-  return advertList;
+  return cardList;
 };
 
-export { createAdvertList };
+export { createCardList };
