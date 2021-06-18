@@ -2,7 +2,7 @@ import { getRandomPositiveInteger, getRandomPositiveFloat } from './utils/get-ra
 import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from './utils/get-random-array.js';
 
 const cardData = {
-  cardListLength: 10,
+  cardsArrayLength: 10,
   author: 'img/avatars/user',
   title: [
     'Лучшее предложение! Спешите забронировать до конца недели.',
@@ -73,9 +73,9 @@ const cardData = {
   },
 };
 
-const createCardList = () => {
-  const cardList = new Array(cardData.cardListLength);
-  for (let i = 0; i < cardList.length; i++) {
+const createCardsArray = () => {
+  const cardsArray = new Array(cardData.cardsArrayLength);
+  for (let i = 0; i < cardsArray.length; i++) {
     const createCard = () => {
       const locationLat = getRandomPositiveFloat(cardData.location.latMin, cardData.location.latMax, 5);
       const locationLng = getRandomPositiveFloat(cardData.location.lngMin, cardData.location.lngMax, 5);
@@ -100,9 +100,9 @@ const createCardList = () => {
         },
       };
     };
-    cardList[i] = createCard();
+    cardsArray[i] = createCard();
   }
-  return cardList;
+  return cardsArray;
 };
 
-export { createCardList };
+export {createCardsArray};
