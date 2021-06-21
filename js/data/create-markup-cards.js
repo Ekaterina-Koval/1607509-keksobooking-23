@@ -1,6 +1,6 @@
 import { createCardsArray } from './create-temporary-data.js';
-import { getComparison } from './utils/get-comparison.js';
-import { getEndingWordRooms, getEndingWordGuests} from './utils/get-ending-of-words.js';
+import { getComparison } from '../utils/get-comparison.js';
+import { getEndingWordRooms, getEndingWordGuests} from '../utils/get-ending-of-words.js';
 
 const cardTemplate = document.querySelector('#card').content;
 const mapCanvasElement = document.querySelector('.map__canvas');
