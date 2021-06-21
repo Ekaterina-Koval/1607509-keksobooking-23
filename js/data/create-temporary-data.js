@@ -1,5 +1,5 @@
-import { getRandomPositiveInteger, getRandomPositiveFloat } from './utils/get-random-numbers.js';
-import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from './utils/get-random-array.js';
+import { getRandomPositiveInteger, getRandomPositiveFloat } from '../utils/get-random-numbers.js';
+import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from '../utils/get-random-array.js';
 
 const cardData = {
   cardsArrayLength: 10,
@@ -105,4 +105,4 @@ const createCardsArray = () => {
   return cardsArray;
 };
 
-export {createCardsArray};
+export { createCardsArray };

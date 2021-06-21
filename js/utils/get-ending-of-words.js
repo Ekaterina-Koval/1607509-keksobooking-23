@@ -13,4 +13,3 @@ const getEndingWordGuests = (number) => {
 
 export {getEndingWordRooms};
 export {getEndingWordGuests};
-
