@@ -84,6 +84,7 @@ const createCardsArray = () => {
       const locationLat = getRandomPositiveFloat(cardData.location.latMin, cardData.location.latMax, 5);
       const locationLng = getRandomPositiveFloat(cardData.location.lngMin, cardData.location.lngMax, 5);
       const numbersOfRooms = getRandomArrayElement(Object.keys(cardData.rooms));
+      const checkTime = getRandomArrayElement(cardData.times);
       return {
         author: `${cardData.author}${(`0${i + 1}`).slice(-2)}.png`,
         offer: {
@@ -93,8 +94,8 @@ const createCardsArray = () => {
           type: getRandomArrayElement(cardData.type),
           rooms: cardData.rooms[numbersOfRooms],
           guests: cardData.guests[numbersOfRooms],
-          checkin: getRandomArrayElement(cardData.times),
-          checkout: getRandomArrayElement(cardData.times),
+          checkin: checkTime,
+          checkout: checkTime,
           features: createRandomArray(cardData.features),
           description: getRandomItemNoRepeat(cardData.description),
           photos: createRandomArray(cardData.photos),
