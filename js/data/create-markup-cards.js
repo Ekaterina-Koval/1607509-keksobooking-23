@@ -23,7 +23,7 @@ cardsArray.forEach(({ author, offer }) => {
   offer.address === 0 ? cardElement.querySelector('.popup__text--address').classList.add('hidden') : cardElement.querySelector('.popup__text--address').textContent = offer.address;
   offer.price === 0 ? cardElement.querySelector('.popup__text--price').classList.add('hidden') : cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
   offer.type === 0 ? cardElement.querySelector('.popup__type').classList.add('hidden') : cardElement.querySelector('.popup__type').textContent = getComparison(offer.type);
-  offer.guests === 0 ? cardElement.querySelector('.popup__text--capacity').classList.add('hidden') : cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнат${getEndingWordRooms(offer.rooms)} для ${offer.guests} гост${getEndingWordGuests(offer.guests)}`;
+  offer.guests === 0 ? cardElement.querySelector('.popup__text--capacity').classList.add('hidden') : cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнат${getEndingWordRooms(offer.rooms)}${offer.guests}${getEndingWordGuests(offer.guests)}`;
   offer.checkout === 0 ? cardElement.querySelector('.popup__text--time').classList.add('hidden') : cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
   if (!offer.features) {

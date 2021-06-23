@@ -21,12 +21,16 @@ const cardData = {
     maxPrice: 1000000,
   },
   rooms: {
-    minRooms: 1,
-    maxRooms: 3,
+    oneRoom: 1,
+    twoRooms: 2,
+    threeRooms: 3,
+    oneHandredRooms: 100,
   },
   guests: {
-    minGuests: 1,
-    maxGuests: 9,
+    oneRoom: 1,
+    twoRooms: 2,
+    threeRooms: 3,
+    oneHandredRooms: '',
   },
   type: [
     'palace',
@@ -79,6 +83,7 @@ const createCardsArray = () => {
     const createCard = () => {
       const locationLat = getRandomPositiveFloat(cardData.location.latMin, cardData.location.latMax, 5);
       const locationLng = getRandomPositiveFloat(cardData.location.lngMin, cardData.location.lngMax, 5);
+      const numbersOfRooms = getRandomArrayElement(Object.keys(cardData.rooms));
       return {
         author: `${cardData.author}${(`0${i + 1}`).slice(-2)}.png`,
         offer: {
@@ -86,8 +91,8 @@ const createCardsArray = () => {
           address: `${locationLat}, ${locationLng}`,
           price: getRandomPositiveInteger(cardData.price.minPrice, cardData.price.maxPrice),
           type: getRandomArrayElement(cardData.type),
-          rooms: getRandomPositiveInteger(cardData.rooms.minRooms, cardData.rooms.maxRooms),
-          guests: getRandomPositiveInteger(cardData.guests.minGuests, cardData.guests.maxGuests),
+          rooms: cardData.rooms[numbersOfRooms],
+          guests: cardData.guests[numbersOfRooms],
           checkin: getRandomArrayElement(cardData.times),
           checkout: getRandomArrayElement(cardData.times),
           features: createRandomArray(cardData.features),
