@@ -1,14 +1,14 @@
 const getEndingWordRooms = (number) => {
-  const n = number % 10;
-  if (n === 1) {return 'а';}
-  if (1 < n <= 4) {return 'ы';}
-  if (n === 0 || n > 4) {return '';}
+  if (number === 1) {return 'а для ';}
+  if (number === 100) {return '';}
+  if (1 < number <= 4) {return 'ы для ';}
+
 };
 
 const getEndingWordGuests = (number) => {
-  const n = number % 10;
-  if(n === 1) {return 'я';}
-  return 'ей';
+  if (number === 1) {return ' гостя';}
+  if (number === '') { return ' не для гостей'; }
+  return ' гостей';
 };
 
 export {getEndingWordRooms};

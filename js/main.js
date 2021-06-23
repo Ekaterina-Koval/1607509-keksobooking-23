@@ -1,6 +1,7 @@
 import { createCardsArray } from './data/create-temporary-data.js';
 import './data/create-markup-cards.js';
 import { disabledElementsWithPerrent, enabledElementsWithPerrent } from './form/change-page-state.js';
+import './form/form-validation.js';
 
 createCardsArray();
 
