@@ -12,12 +12,7 @@ const enabledElementsWithPerrent = (perrentClassName, childTegName) => {
   childElement.forEach((element) => (element.disabled = false));
 };
 
-/*
 disabledElementsWithPerrent('ad-form', 'fieldset');
-enabledElementsWithPerrent('ad-form', 'fieldset');
 disabledElementsWithPerrent('map__filters', 'select, fieldset');
-enabledElementsWithPerrent('map__filters', 'select, fieldset');
-*/
 
-export { disabledElementsWithPerrent };
 export { enabledElementsWithPerrent };

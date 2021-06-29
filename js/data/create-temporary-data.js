@@ -111,4 +111,6 @@ const createCardsArray = () => {
   return cardsArray;
 };
 
+createCardsArray();
+
 export { createCardsArray };
