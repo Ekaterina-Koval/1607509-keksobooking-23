@@ -9,7 +9,7 @@ const DEFAULT_ADDRESS = {
 };
 
 const MAIN_MARKER = {
-  url: '../../leaflet/images/marker-icon.png',
+  url: 'leaflet/images/marker-icon.png',
   size: {
     width: 52,
     height: 52,
@@ -21,7 +21,7 @@ const MAIN_MARKER = {
 };
 
 const REGULAR_MARKER = {
-  url: '../../img/pin.svg',
+  url: 'img/pin.svg',
   size: {
     width: 40,
     height: 40,
@@ -57,7 +57,7 @@ L.tileLayer(
 ).addTo(map);
 
 const mainMarkerIcon = L.icon({
-  iconUrl: '../../leaflet/images/marker-icon.png',
+  iconUrl: MAIN_MARKER.url,
   iconSize: [MAIN_MARKER.size.width, MAIN_MARKER.size.height],
   iconAnchor: [MAIN_MARKER.ancor.width, MAIN_MARKER.ancor.height],
 });
