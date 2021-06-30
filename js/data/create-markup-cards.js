@@ -1,9 +1,7 @@
-import { createCardsArray } from './create-temporary-data.js';
 import { getComparison } from '../utils/get-comparison.js';
 import { getEndingWordRooms, getEndingWordGuests} from '../utils/get-ending-of-words.js';
 
 const cardTemplate = document.querySelector('#card').content;
-const mapCanvasElement = document.querySelector('.map__canvas');
 const POPUP_PHOTO = {
   className: 'popup__photo',
   width: 45,
@@ -11,11 +9,7 @@ const POPUP_PHOTO = {
   alt: 'Фотография жилья',
 };
 
-const cardsArray = createCardsArray();
-
-const mapCanvasFragment = document.createDocumentFragment();
-
-cardsArray.forEach(({ author, offer }) => {
+const createCard = ({ author, offer }) => {
   const cardElement = cardTemplate.cloneNode(true);
 
   author.length === 0 ? cardElement.querySelector('.popup__avatar').classList.add('hidden') : cardElement.querySelector('.popup__avatar').src = author;
@@ -66,8 +60,8 @@ cardsArray.forEach(({ author, offer }) => {
     createPopupPhoto(photos, offerPhotos);
   }
 
-  mapCanvasFragment.appendChild(cardElement);
+  return cardElement;
 
-});
+};
 
-mapCanvasElement.appendChild(mapCanvasFragment);
+export {createCard};
