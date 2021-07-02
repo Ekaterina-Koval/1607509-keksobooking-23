@@ -72,7 +72,7 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-mainMarker.on('moveend', (evt) => {
+mainMarker.on('move', (evt) => {
   const latLng = evt.target.getLatLng();
   addressField.value = `${latLng.lat.toFixed(5)}, ${latLng.lng.toFixed(5)}`;
 });

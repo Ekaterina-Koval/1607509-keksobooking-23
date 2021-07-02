@@ -8,19 +8,19 @@ const MATCHING_FORM_FIELDS = {
   price: {
     max: 1000000,
     min: [
-      {bungalow: 0},
-      {flat: 1000},
-      {hotel: 3000},
-      {house: 5000},
-      {palace: 10000},
+      { bungalow: 0 },
+      { flat: 1000 },
+      { hotel: 3000 },
+      { house: 5000 },
+      { palace: 10000 },
     ],
   },
-  roomsForGuests: {
-    1: [1],
-    2: [1, 2],
-    3: [1, 2, 3],
-    100: [0],
-  },
+  roomsForGuestsDisabled: [
+    { 3: ['0'] },
+    { 2: ['3', '0'] },
+    { 1: ['0', '2', '3'] },
+    { 100: ['1', '2', '3'] },
+  ],
   time: [
     '12:00',
     '13:00',
@@ -62,10 +62,11 @@ titleField.addEventListener('input', () => {
 addressField.setAttribute('readonly', '');
 
 priceField.setAttribute('min', MATCHING_FORM_FIELDS.price.min.flat);
+
 typeField.addEventListener('change', () => {
   const typeFieldValue = typeField.value;
   const minPriceOfType = MATCHING_FORM_FIELDS.price.min;
-  minPriceOfType.forEach ((element) => {
+  minPriceOfType.forEach((element) => {
     switch (typeFieldValue) {
       case Object.keys(element)[0]:
         priceField.setAttribute('min', Object.values(element)[0]);
@@ -74,6 +75,7 @@ typeField.addEventListener('change', () => {
     }
   });
 });
+
 // Добавить проверку на не число!
 priceField.addEventListener('input', () => {
   const priceFieldValue = priceField.value;
@@ -89,49 +91,32 @@ priceField.addEventListener('input', () => {
 
 capacityFieldOptions[0].removeAttribute('selected');
 capacityFieldOptions[2].setAttribute('selected', '');
+
 roomsField.addEventListener('change', () => {
   const roomsFieldValue = roomsField.value;
-  switch (roomsFieldValue) {
-    case Object.keys(MATCHING_FORM_FIELDS.roomsForGuests)[0]:
-      setDisabledValue(capacityFieldOptions, ['0', '2', '3']);
-      capacityFieldOptions[2].selected = true;
-      break;
-    case Object.keys(MATCHING_FORM_FIELDS.roomsForGuests)[1]:
-      setDisabledValue(capacityFieldOptions, ['0', '3']);
-      capacityFieldOptions[1].selected = true;
-      break;
-    case Object.keys(MATCHING_FORM_FIELDS.roomsForGuests)[2]:
-      setDisabledValue(capacityFieldOptions, ['0']);
-      capacityFieldOptions[0].selected = true;
-      break;
-    case Object.keys(MATCHING_FORM_FIELDS.roomsForGuests)[3]:
-      setDisabledValue(capacityFieldOptions, ['1', '2', '3']);
-      capacityFieldOptions[3].selected = true;
-      break;
-  }
-});
-
-const changeTimeField = (variableField, dependentField ) => {
-  variableField.addEventListener('change', () => {
-    const variableFieldValue = variableField.value;
-    switch (variableFieldValue) {
-      case 'MATCHING_FORM_FIELDS.time[0]':
-        setDisabledValue(dependentField, ['1', '2']);
-        dependentField[0].selected = true;
-        break;
-      case MATCHING_FORM_FIELDS.time[1]:
-        setDisabledValue(dependentField, ['0', '2']);
-        dependentField[1].selected = true;
-        break;
-      case MATCHING_FORM_FIELDS.time[2]:
-        setDisabledValue(dependentField, ['0', '1']);
-        dependentField[2].selected = true;
+  MATCHING_FORM_FIELDS.roomsForGuestsDisabled.forEach((element) => {
+    switch (roomsFieldValue) {
+      case Object.keys(element)[0]:
+        setDisabledValue(capacityFieldOptions, Object.values(element)[0]);
+        capacityFieldOptions[MATCHING_FORM_FIELDS.roomsForGuestsDisabled.indexOf(element)].selected = true;
         break;
     }
   });
-};
+});
 
+const changeTimeField = (variableField, dependentField) => {
+  variableField.addEventListener('change', () => {
+    const variableFieldValue = variableField.value;
+    MATCHING_FORM_FIELDS.time.forEach((element) => {
+      switch (variableFieldValue) {
+        case element:
+          dependentField[MATCHING_FORM_FIELDS.time.indexOf(element)].selected = true;
+          break;
+      }
+    });
+  });
+};
 changeTimeField(timeInField, timeOutFieldOptions);
 changeTimeField(timeOutField, timeInFieldOptions);
 
-export {addressField, resetButton};
+export { addressField, resetButton };
