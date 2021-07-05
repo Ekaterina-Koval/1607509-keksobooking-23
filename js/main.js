@@ -1,4 +1,5 @@
-import './form/change-page-state.js';
+import './form/change-form-state.js';
 import './map/map.js';
-import './data/create-markup-cards.js';
+import './map/create-markup-cards.js';
 import './form/form-validation.js';
+import './form/api.js';

@@ -119,4 +119,8 @@ const changeTimeField = (variableField, dependentField) => {
 changeTimeField(timeInField, timeOutFieldOptions);
 changeTimeField(timeOutField, timeInFieldOptions);
 
+AD_FORM.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+});
+
 export { addressField, resetButton };

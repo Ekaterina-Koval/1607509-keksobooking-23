@@ -1,9 +1,11 @@
-import { getRandomPositiveInteger, getRandomPositiveFloat } from '../utils/get-random-numbers.js';
-import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from '../utils/get-random-array.js';
+import { getRandomPositiveInteger, getRandomPositiveFloat } from './utils/get-random-numbers.js';
+import { getRandomItemNoRepeat, getRandomArrayElement, createRandomArray } from './utils/get-random-array.js';
 
 const cardData = {
   cardsArrayLength: 10,
-  author: 'img/avatars/user',
+  author: {
+    avatar: 'img/avatars/user',
+  },
   title: [
     'Лучшее предложение! Спешите забронировать до конца недели.',
     'Комфорт и уют наше кредо. Почувствуйте себя как дома',
@@ -86,7 +88,9 @@ const createCardsArray = () => {
       const numbersOfRooms = getRandomArrayElement(Object.keys(cardData.rooms));
       const checkTime = getRandomArrayElement(cardData.times);
       return {
-        author: `${cardData.author}${(`0${i + 1}`).slice(-2)}.png`,
+        author: {
+          avatar: `${cardData.author.avatar}${(`0${i + 1}`).slice(-2)}.png`,
+        },
         offer: {
           title: getRandomItemNoRepeat(cardData.title),
           address: `${locationLat}, ${locationLng}`,

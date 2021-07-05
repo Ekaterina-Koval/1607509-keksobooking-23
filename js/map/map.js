@@ -1,7 +1,6 @@
-import { createCardsArray } from '../data/create-temporary-data.js';
-import { enabledElementsWithPerrent } from '../form/change-page-state.js';
+import { enabledElementsWithPerrent } from '../form/change-form-state.js';
 import { addressField, resetButton } from '../form/form-validation.js';
-import { createCard } from '../data/create-markup-cards.js';
+import { createCard } from './create-markup-cards.js';
 
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
@@ -84,27 +83,29 @@ resetButton.addEventListener('click', (evt) => {
   map.setView(DEFAULT_ADDRESS);
 });
 
-const cardsArray = createCardsArray();
-
-cardsArray.forEach(({ author, location, offer}) => {
-  const icon = L.icon({
-    iconUrl: REGULAR_MARKER.url,
-    iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
-    iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
-  });
-  const cardMarker = L.marker(
-    location,
-    {
-      icon,
-    },
-  );
-
-  cardMarker
-    .addTo(map)
-    .bindPopup(
-      createCard({author, offer}),
+const createCards = (cardsArray) => {
+  cardsArray.forEach(({ author, location, offer}) => {
+    const icon = L.icon({
+      iconUrl: REGULAR_MARKER.url,
+      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
+      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
+    });
+    const cardMarker = L.marker(
+      location,
       {
-        keepInView: true,
+        icon,
       },
     );
-});
+
+    cardMarker
+      .addTo(map)
+      .bindPopup(
+        createCard({author, offer}),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+export {createCards};

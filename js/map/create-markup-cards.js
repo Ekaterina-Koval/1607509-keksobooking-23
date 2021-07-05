@@ -12,7 +12,7 @@ const POPUP_PHOTO = {
 const createCard = ({ author, offer }) => {
   const cardElement = cardTemplate.cloneNode(true);
 
-  author.length === 0 ? cardElement.querySelector('.popup__avatar').classList.add('hidden') : cardElement.querySelector('.popup__avatar').src = author;
+  author.length === 0 ? cardElement.querySelector('.popup__avatar').classList.add('hidden') : cardElement.querySelector('.popup__avatar').src = author.avatar;
   offer.title === 0 ? cardElement.querySelector('.popup__title').classList.add('hidden') : cardElement.querySelector('.popup__title').textContent = offer.title;
   offer.address === 0 ? cardElement.querySelector('.popup__text--address').classList.add('hidden') : cardElement.querySelector('.popup__text--address').textContent = offer.address;
   offer.price === 0 ? cardElement.querySelector('.popup__text--price').classList.add('hidden') : cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
@@ -21,7 +21,7 @@ const createCard = ({ author, offer }) => {
   offer.checkout === 0 ? cardElement.querySelector('.popup__text--time').classList.add('hidden') : cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
   if (!offer.features) {
-    cardElement.querySelector('.popup__features').classListAdd('hidden');
+    cardElement.querySelector('.popup__features').remove();
   } else {
     const featuresList = cardElement.querySelector('.popup__features');
     while (featuresList.firstChild) {
@@ -36,8 +36,8 @@ const createCard = ({ author, offer }) => {
 
   offer.description === 0 ? cardElement.querySelector('.popup__description').classList.add('hidden') : cardElement.querySelector('.popup__description').textContent = offer.description;
 
-  if (offer.photos.length === 0) {
-    cardElement.querySelector('.popup__photos').classList.add('hidden');
+  if (!offer.photos) {
+    cardElement.querySelector('.popup__photos').remove();
   } else {
     const photos = offer.photos;
     const offerPhotos = cardElement.querySelector('.popup__photos');
