@@ -1,4 +1,6 @@
+import { sendData } from '../map/api.js';
 import { setDisabledValue } from '../utils/set-disabled-value.js';
+import {showAlert} from '../utils/show-alert.js';
 
 const MATCHING_FORM_FIELDS = {
   title: {
@@ -119,8 +121,15 @@ const changeTimeField = (variableField, dependentField) => {
 changeTimeField(timeInField, timeOutFieldOptions);
 changeTimeField(timeOutField, timeInFieldOptions);
 
-AD_FORM.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-});
+const setUserFormSubmit = (onSuccess) => {
+  AD_FORM.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      () => onSuccess(),
+      () => showAlert('Не удалось отправить форму.Попробуйте ещё раз'),
+      new FormData(evt.terget),
+    );
+  });
+};
 
-export { addressField, resetButton };
+export { addressField, resetButton, AD_FORM, setUserFormSubmit };

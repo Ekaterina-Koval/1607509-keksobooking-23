@@ -1,6 +1,9 @@
 import { enabledElementsWithPerrent } from '../form/change-form-state.js';
 import { addressField, resetButton } from '../form/form-validation.js';
+import {AD_FORM} from '../form/form-validation.js';
 import { createCard } from './create-markup-cards.js';
+import { getData } from './api.js';
+
 
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
@@ -79,6 +82,7 @@ mainMarker.on('move', (evt) => {
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetAddressField();
+  AD_FORM.reset();
   mainMarker.setLatLng(DEFAULT_ADDRESS);
   map.setView(DEFAULT_ADDRESS);
 });
@@ -107,5 +111,9 @@ const createCards = (cardsArray) => {
       );
   });
 };
+
+getData((cardsArray) => {
+  createCards(cardsArray);
+});
 
 export {createCards};
