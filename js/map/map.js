@@ -1,7 +1,10 @@
-import { createCardsArray } from '../data/create-temporary-data.js';
-import { enabledElementsWithPerrent } from '../form/change-page-state.js';
+import { enabledElementsWithPerrent } from '../form/change-form-state.js';
 import { addressField, resetButton } from '../form/form-validation.js';
-import { createCard } from '../data/create-markup-cards.js';
+import { AD_FORM } from '../form/form-validation.js';
+import { createCard } from './create-markup-cards.js';
+import { getData } from './api.js';
+import { showAlert } from '../utils/show-alert.js';
+
 
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
@@ -72,7 +75,7 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-mainMarker.on('moveend', (evt) => {
+mainMarker.on('move', (evt) => {
   const latLng = evt.target.getLatLng();
   addressField.value = `${latLng.lat.toFixed(5)}, ${latLng.lng.toFixed(5)}`;
 });
@@ -80,31 +83,39 @@ mainMarker.on('moveend', (evt) => {
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetAddressField();
+  AD_FORM.reset();
   mainMarker.setLatLng(DEFAULT_ADDRESS);
   map.setView(DEFAULT_ADDRESS);
 });
 
-const cardsArray = createCardsArray();
-
-cardsArray.forEach(({ author, location, offer}) => {
-  const icon = L.icon({
-    iconUrl: REGULAR_MARKER.url,
-    iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
-    iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
-  });
-  const cardMarker = L.marker(
-    location,
-    {
-      icon,
-    },
-  );
-
-  cardMarker
-    .addTo(map)
-    .bindPopup(
-      createCard({author, offer}),
+const createCards = (cardsArray) => {
+  cardsArray.forEach(({ author, location, offer}) => {
+    const icon = L.icon({
+      iconUrl: REGULAR_MARKER.url,
+      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
+      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
+    });
+    const cardMarker = L.marker(
+      location,
       {
-        keepInView: true,
+        icon,
       },
     );
-});
+
+    cardMarker
+      .addTo(map)
+      .bindPopup(
+        createCard({author, offer}),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+getData(
+  (cardsArray) => createCards(cardsArray),
+  () => showAlert('Ошибка при заггрузке данных'),
+);
+
+export {createCards};

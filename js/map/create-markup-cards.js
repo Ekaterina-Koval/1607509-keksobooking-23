@@ -12,16 +12,16 @@ const POPUP_PHOTO = {
 const createCard = ({ author, offer }) => {
   const cardElement = cardTemplate.cloneNode(true);
 
-  author.length === 0 ? cardElement.querySelector('.popup__avatar').classList.add('hidden') : cardElement.querySelector('.popup__avatar').src = author;
-  offer.title === 0 ? cardElement.querySelector('.popup__title').classList.add('hidden') : cardElement.querySelector('.popup__title').textContent = offer.title;
-  offer.address === 0 ? cardElement.querySelector('.popup__text--address').classList.add('hidden') : cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  offer.price === 0 ? cardElement.querySelector('.popup__text--price').classList.add('hidden') : cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
-  offer.type === 0 ? cardElement.querySelector('.popup__type').classList.add('hidden') : cardElement.querySelector('.popup__type').textContent = getComparison(offer.type);
-  offer.guests === 0 ? cardElement.querySelector('.popup__text--capacity').classList.add('hidden') : cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнат${getEndingWordRooms(offer.rooms)}${offer.guests}${getEndingWordGuests(offer.guests)}`;
-  offer.checkout === 0 ? cardElement.querySelector('.popup__text--time').classList.add('hidden') : cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  author.length === 0 ? cardElement.querySelector('.popup__avatar').classList.add('hidden') : cardElement.querySelector('.popup__avatar').src = author.avatar;
+  !offer.title ? cardElement.querySelector('.popup__title').classList.add('hidden') : cardElement.querySelector('.popup__title').textContent = offer.title;
+  !offer.address ? cardElement.querySelector('.popup__text--address').classList.add('hidden') : cardElement.querySelector('.popup__text--address').textContent = offer.address;
+  !offer.price ? cardElement.querySelector('.popup__text--price').classList.add('hidden') : cardElement.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+  !offer.type ? cardElement.querySelector('.popup__type').classList.add('hidden') : cardElement.querySelector('.popup__type').textContent = getComparison(offer.type);
+  !offer.guests ? cardElement.querySelector('.popup__text--capacity').classList.add('hidden') : cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнат${getEndingWordRooms(offer.rooms)}${offer.guests}${getEndingWordGuests(offer.guests)}`;
+  !offer.checkout ? cardElement.querySelector('.popup__text--time').classList.add('hidden') : cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
   if (!offer.features) {
-    cardElement.querySelector('.popup__features').classListAdd('hidden');
+    cardElement.querySelector('.popup__features').classList.add('hidden');
   } else {
     const featuresList = cardElement.querySelector('.popup__features');
     while (featuresList.firstChild) {
@@ -34,9 +34,9 @@ const createCard = ({ author, offer }) => {
     });
   }
 
-  offer.description === 0 ? cardElement.querySelector('.popup__description').classList.add('hidden') : cardElement.querySelector('.popup__description').textContent = offer.description;
+  !offer.description ? cardElement.querySelector('.popup__description').classList.add('hidden') : cardElement.querySelector('.popup__description').textContent = offer.description;
 
-  if (offer.photos.length === 0) {
+  if (!offer.photos) {
     cardElement.querySelector('.popup__photos').classList.add('hidden');
   } else {
     const photos = offer.photos;
