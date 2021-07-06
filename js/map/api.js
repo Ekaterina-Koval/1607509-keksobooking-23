@@ -5,7 +5,7 @@ const getData = (onSuccess, onFail) => {
       onSuccess(cards.slice(0, 10));
     })
     .catch(() => {
-      onFail('Ошибка при загрузке данных');
+      onFail();
     });
 };
 
@@ -21,11 +21,11 @@ const sendData = (onSuccess, onFail, body) => {
       if (response.ok) {
         onSuccess();
       } else {
-        onFail('Не удалось отправить форму. Попробуйте ещё раз');
+        onFail();
       }
     })
     .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
+      onFail();
     });
 };
 

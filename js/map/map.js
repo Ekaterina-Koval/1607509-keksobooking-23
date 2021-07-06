@@ -1,8 +1,9 @@
 import { enabledElementsWithPerrent } from '../form/change-form-state.js';
 import { addressField, resetButton } from '../form/form-validation.js';
-import {AD_FORM} from '../form/form-validation.js';
+import { AD_FORM } from '../form/form-validation.js';
 import { createCard } from './create-markup-cards.js';
 import { getData } from './api.js';
+import { showAlert } from '../utils/show-alert.js';
 
 
 const DEFAULT_ADDRESS = {
@@ -112,8 +113,9 @@ const createCards = (cardsArray) => {
   });
 };
 
-getData((cardsArray) => {
-  createCards(cardsArray);
-});
+getData(
+  (cardsArray) => createCards(cardsArray),
+  () => showAlert('Ошибка при заггрузке данных'),
+);
 
 export {createCards};
