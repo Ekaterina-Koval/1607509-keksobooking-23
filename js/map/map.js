@@ -5,7 +5,6 @@ import { createCard } from './create-markup-cards.js';
 import { getData } from './api.js';
 import { showAlert } from '../utils/show-alert.js';
 
-
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
   lng: 139.69200,
@@ -80,12 +79,16 @@ mainMarker.on('move', (evt) => {
   addressField.value = `${latLng.lat.toFixed(5)}, ${latLng.lng.toFixed(5)}`;
 });
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const resetUserForm = () => {
   resetAddressField();
   AD_FORM.reset();
   mainMarker.setLatLng(DEFAULT_ADDRESS);
   map.setView(DEFAULT_ADDRESS);
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetUserForm();
 });
 
 const createCards = (cardsArray) => {
@@ -118,4 +121,5 @@ getData(
   () => showAlert('Ошибка при заггрузке данных'),
 );
 
-export {createCards};
+
+export {createCards, resetUserForm };
