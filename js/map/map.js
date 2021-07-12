@@ -4,6 +4,7 @@ import { AD_FORM } from '../form/form-validation.js';
 import { createCard } from './create-markup-cards.js';
 import { getData } from './api.js';
 import { showAlert } from '../utils/show-alert.js';
+//import { filteredCards } from './filter.js';
 
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
@@ -35,11 +36,42 @@ const REGULAR_MARKER = {
 };
 
 const map = L.map('map-canvas');
+const markersLayer = L.layerGroup().addTo(map);
 
 const resetAddressField = () =>
   addressField.value = `${DEFAULT_ADDRESS.lat.toFixed(5)}, ${DEFAULT_ADDRESS.lng.toFixed(5)}`;
 
 resetAddressField();
+
+const createCards = (cardsArray) => {
+  cardsArray.forEach(({ author, location, offer }) => {
+    const icon = L.icon({
+      iconUrl: REGULAR_MARKER.url,
+      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
+      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
+    });
+    const cardMarker = L.marker(
+      location,
+      {
+        icon,
+      },
+    );
+
+    cardMarker
+      .addTo(markersLayer)
+      .bindPopup(
+        createCard({ author, offer }),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+getData(
+  (cardsArray) => createCards(cardsArray),
+  () => showAlert('Ошибка при загрузке данных'),
+);
 
 map.on('load', () => {
   enabledElementsWithPerrent('ad-form', 'fieldset');
@@ -90,36 +122,5 @@ resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   resetUserForm();
 });
-
-const createCards = (cardsArray) => {
-  cardsArray.forEach(({ author, location, offer}) => {
-    const icon = L.icon({
-      iconUrl: REGULAR_MARKER.url,
-      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
-      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
-    });
-    const cardMarker = L.marker(
-      location,
-      {
-        icon,
-      },
-    );
-
-    cardMarker
-      .addTo(map)
-      .bindPopup(
-        createCard({author, offer}),
-        {
-          keepInView: true,
-        },
-      );
-  });
-};
-
-getData(
-  (cardsArray) => createCards(cardsArray),
-  () => showAlert('Ошибка при заггрузке данных'),
-);
-
 
 export {createCards, resetUserForm };

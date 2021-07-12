@@ -43,9 +43,9 @@ const roomsField = AD_FORM.querySelector('select[name=rooms]');
 const capacityField = AD_FORM.querySelector('select[name=capacity]');
 const capacityFieldOptions = capacityField.querySelectorAll('option');
 //const featuresField = AD_FORM.querySelector('input[name=features]');
-//const discriptionField = AD_FORM.querySelector('textarea[name=discription]');
 //const imagesField = AD_FORM.querySelector('input[name=images]');
 const resetButton = AD_FORM.querySelector('.ad-form__reset');
+
 
 titleField.addEventListener('input', () => {
   const titleFieldValueLength = titleField.value.length;
@@ -60,7 +60,6 @@ titleField.addEventListener('input', () => {
   }
   titleField.reportValidity();
 });
-
 addressField.setAttribute('readonly', '');
 
 priceField.setAttribute('min', MATCHING_FORM_FIELDS.price.min.flat);
@@ -93,6 +92,9 @@ priceField.addEventListener('input', () => {
 
 capacityFieldOptions[0].removeAttribute('selected');
 capacityFieldOptions[2].setAttribute('selected', '');
+capacityFieldOptions[0].setAttribute('disabled', '');
+capacityFieldOptions[1].setAttribute('disabled', '');
+capacityFieldOptions[3].setAttribute('disabled', '');
 
 roomsField.addEventListener('change', () => {
   const roomsFieldValue = roomsField.value;

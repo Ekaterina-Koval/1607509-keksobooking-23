@@ -17,13 +17,24 @@ const showPopup = (popupTemplate) => {
     popup.remove();
     document.removeEventListener('click', clickClose);
   };
+  /*
+  let buttonPopupClose;
+  const buttonClose = (className) => {
+    buttonPopupClose = popupTemplate.content.querySelector(`.${className}`);
+    popup.remove();
+    buttonPopupClose.removeEventListener('click', buttonClose);
+  };
+  buttonPopupClose.addEventListener('click', buttonClose);
+  */
 
   document.addEventListener('keydown', escClose);
   document.addEventListener('click', clickClose);
+
 };
 
 const successTemplatePopup = document.querySelector('#success').content.querySelector('.success');
 const errorTemplatePopup = document.querySelector('#error').content.querySelector('.error');
+//const errorPopupButton = errorTemplatePopup.querySelector('.error__button');
 
 const showSuccessPopup = () => {
   showPopup(successTemplatePopup);
@@ -32,8 +43,6 @@ const showSuccessPopup = () => {
 
 const showErrorPopup = () => {
   showPopup(errorTemplatePopup);
-  //добавить кнопку закрытия окна
-  //сохранение данных
 };
 
 export {showSuccessPopup, showErrorPopup};
