@@ -1,10 +1,12 @@
 import { enabledElementsWithPerrent } from '../form/change-form-state.js';
-import { addressField, resetButton } from '../form/form-validation.js';
-import { AD_FORM } from '../form/form-validation.js';
 import { createCard } from './create-markup-cards.js';
 import { getData } from './api.js';
+import { addressField, resetButton } from '../form/form-validation.js';
+import { AD_FORM } from '../form/form-validation.js';
 import { showAlert } from '../utils/show-alert.js';
-//import { filteredCards } from './filter.js';
+import { filteredData } from './filter.js';
+import { userFilterDataArray } from './api.js';
+
 
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
@@ -34,6 +36,8 @@ const REGULAR_MARKER = {
     height: 40,
   },
 };
+
+const NUMBER_OF_CARDS_TO_SHOW = 10;
 
 const map = L.map('map-canvas');
 const markersLayer = L.layerGroup().addTo(map);
@@ -69,13 +73,40 @@ const createCards = (cardsArray) => {
 };
 
 getData(
-  (cardsArray) => createCards(cardsArray),
+  (dataArray) => createCards(dataArray.slice(0, NUMBER_OF_CARDS_TO_SHOW)),
   () => showAlert('Ошибка при загрузке данных'),
 );
 
+const renderFiltredCards = () => {
+  markersLayer.clearLayers();
+  const cardsData = filteredData(userFilterDataArray, NUMBER_OF_CARDS_TO_SHOW);
+  cardsData.forEach(({ author, location, offer }) => {
+    const icon = L.icon({
+      iconUrl: REGULAR_MARKER.url,
+      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
+      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
+    });
+    const cardMarker = L.marker(
+      location,
+      {
+        icon,
+      },
+    );
+
+    cardMarker
+      .addTo(markersLayer)
+      .bindPopup(
+        createCard({ author, offer }),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+
 map.on('load', () => {
   enabledElementsWithPerrent('ad-form', 'fieldset');
-  enabledElementsWithPerrent('map__filters', 'select, fieldset');
 });
 
 map.setView(
@@ -123,4 +154,5 @@ resetButton.addEventListener('click', (evt) => {
   resetUserForm();
 });
 
-export {createCards, resetUserForm };
+export {createCards, renderFiltredCards, resetUserForm };
+

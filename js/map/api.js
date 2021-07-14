@@ -1,8 +1,16 @@
+import { enabledElementsWithPerrent } from '../form/change-form-state.js';
+
+const userFilterDataArray = [];
+
 const getData = (onSuccess, onFail) => {
   fetch('https://23.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
-    .then((cards) => {
-      onSuccess(cards.slice(0, 10));
+    .then((dataArray) => {
+      onSuccess(dataArray);
+      dataArray.forEach((element) => {
+        userFilterDataArray.push(element);
+      });
+      enabledElementsWithPerrent('map__filters', 'select, fieldset');
     })
     .catch(() => {
       onFail();
@@ -29,4 +37,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export { getData, sendData };
+export { getData, sendData, userFilterDataArray };

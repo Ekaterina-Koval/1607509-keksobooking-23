@@ -81,9 +81,9 @@ typeField.addEventListener('change', () => {
 priceField.addEventListener('input', () => {
   const priceFieldValue = priceField.value;
   if (priceFieldValue > MATCHING_FORM_FIELDS.price.max) {
-    priceField.setCustomValidity(`Цена за начь не должна превышать ${MATCHING_FORM_FIELDS.price.max}`);
-  } else if (priceFieldValue < priceField.min) {
-    priceField.setCustomValidity(`Цена за начь должна быть больше ${priceField.min}`);
+    priceField.setCustomValidity(`Цена за ночь не должна превышать ${MATCHING_FORM_FIELDS.price.max}`);
+  } else if (priceFieldValue < priceField.min && priceFieldValue !== 0) {
+    priceField.setCustomValidity(`Цена за ночь должна быть больше ${priceField.min}`);
   } else {
     priceField.setCustomValidity('');
   }

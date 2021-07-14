@@ -1,14 +1,6 @@
-import { createCards } from './map.js';
 import { debounce } from '../utils/debounce.js';
 import { isInRange } from '../utils/isInRange.js';
-
-/*
-const housingTypeFilter = filters.querySelector('.housing-type');
-const housingPriceFilter = filters.querySelector('.housing-price');
-const housingRoomsFilter = filters.querySelector('.housing-rooms');
-const housingGuestsFilter = filters.querySelector('.housing-guests');
-const housingFeaturesFilter = filters.querySelector('.housing-features');
-*/
+import {renderFiltredCards} from './map.js';
 
 const mapFilters = document.querySelector('.map__filters');
 const filterOptions = mapFilters.querySelectorAll('.map__filter');
@@ -18,7 +10,7 @@ const priceRange = {
   middle: [10000, 50000],
   high: [50000, Infinity],
 };
-const filteredCards = (cardsArray) => {
+const filteredData = (dataArray) => {
   const getOptionsValues = () => {
     const optionsValues = {};
     filterOptions.forEach((selectName) => {
@@ -47,46 +39,48 @@ const filteredCards = (cardsArray) => {
   const housingOptions = getOptionsValues();
   const housingFeatures = getInputsValues();
 
-  const filteredCardsArray = cardsArray.filter((card) => {
-    if (housingFeatures.length > 0 && (!card.offer.features || card.offer.features.length === 0)) {
+  const filteredDataArray = dataArray.filter((element) => {
+    if (housingFeatures.length > 0 && (!element.offer.features || element.offer.features.length === 0)) {
       return false;
     }
     for (const input of housingFeatures) {
-      if (!card.offer.features.includes(input)) {
+      if (!element.offer.features.includes(input)) {
         return false;
       }
     }
-    if (housingOptions['housing-type'] && housingOptions['housing-type'] !== card.offer.type) {
+    if (housingOptions['housing-type'] && housingOptions['housing-type'] !== element.offer.type) {
       return false;
     }
-    if (housingOptions['housing-rooms'] && +housingOptions['housing-rooms'] !== +card.offer.rooms) {
+    if (housingOptions['housing-rooms'] && +housingOptions['housing-rooms'] !== +element.offer.rooms) {
       return false;
     }
-    if (housingOptions['housing-guests'] && +housingOptions['housing-guests'] !== +card.offer.guests) {
+    if (housingOptions['housing-guests'] && +housingOptions['housing-guests'] !== +element.offer.guests) {
       return false;
     }
-    return !(housingOptions['housing-price'] && !isInRange(+card.offer.price, priceRange[housingOptions['housing-price']]));
+    return !(housingOptions['housing-price'] && !isInRange(+element.offer.price, priceRange[housingOptions['housing-price']]));
   });
 
-  const sortedCardsArray = filteredCardsArray.sort((a, b) => {
+  const sortedCardsArray = filteredDataArray.sort((a, b) => {
     if (a.offer.features && b.offer.features) {
       return a.offer.features.length - b.offer.features.length;
     }
     return 0;
   });
-
   return sortedCardsArray.slice(0, 10);
+
 };
 
 const setFilterChangeHandler = () => {
   filterInputs.forEach((input) => {
-    input.addEventListener('change', debounce(() => createCards(10)));
+    input.addEventListener('change', debounce (() => renderFiltredCards()));
   });
 
   filterOptions.forEach((select) => {
-    select.addEventListener('change', debounce(() => createCards(10)));
+    select.addEventListener('change', debounce(() => renderFiltredCards()));
   });
 };
 
-export { setFilterChangeHandler, filteredCards };
+setFilterChangeHandler();
+
+export { setFilterChangeHandler, filteredData };
 
