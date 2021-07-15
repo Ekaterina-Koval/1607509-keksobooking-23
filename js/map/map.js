@@ -1,9 +1,11 @@
 import { enabledElementsWithPerrent } from '../form/change-form-state.js';
-import { addressField, resetButton } from '../form/form-validation.js';
-import { AD_FORM } from '../form/form-validation.js';
 import { createCard } from './create-markup-cards.js';
 import { getData } from './api.js';
+import { addressField, resetButton } from '../form/form-validation.js';
+import { AD_FORM } from '../form/form-validation.js';
 import { showAlert } from '../utils/show-alert.js';
+import { filteredData } from './filter.js';
+import { userFilterDataArray } from './api.js';
 
 
 const DEFAULT_ADDRESS = {
@@ -35,16 +37,76 @@ const REGULAR_MARKER = {
   },
 };
 
+const NUMBER_OF_CARDS_TO_SHOW = 10;
+
 const map = L.map('map-canvas');
+const markersLayer = L.layerGroup().addTo(map);
 
 const resetAddressField = () =>
   addressField.value = `${DEFAULT_ADDRESS.lat.toFixed(5)}, ${DEFAULT_ADDRESS.lng.toFixed(5)}`;
 
 resetAddressField();
 
+const createCards = (cardsArray) => {
+  cardsArray.forEach(({ author, location, offer }) => {
+    const icon = L.icon({
+      iconUrl: REGULAR_MARKER.url,
+      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
+      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
+    });
+    const cardMarker = L.marker(
+      location,
+      {
+        icon,
+      },
+    );
+
+    cardMarker
+      .addTo(markersLayer)
+      .bindPopup(
+        createCard({ author, offer }),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+getData(
+  (dataArray) => createCards(dataArray.slice(0, NUMBER_OF_CARDS_TO_SHOW)),
+  () => showAlert('Ошибка при загрузке данных'),
+);
+
+const renderFiltredCards = () => {
+  markersLayer.clearLayers();
+  const cardsData = filteredData(userFilterDataArray, NUMBER_OF_CARDS_TO_SHOW);
+  cardsData.forEach(({ author, location, offer }) => {
+    const icon = L.icon({
+      iconUrl: REGULAR_MARKER.url,
+      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
+      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
+    });
+    const cardMarker = L.marker(
+      location,
+      {
+        icon,
+      },
+    );
+
+    cardMarker
+      .addTo(markersLayer)
+      .bindPopup(
+        createCard({ author, offer }),
+        {
+          keepInView: true,
+        },
+      );
+  });
+};
+
+
 map.on('load', () => {
   enabledElementsWithPerrent('ad-form', 'fieldset');
-  enabledElementsWithPerrent('map__filters', 'select, fieldset');
 });
 
 map.setView(
@@ -80,42 +142,17 @@ mainMarker.on('move', (evt) => {
   addressField.value = `${latLng.lat.toFixed(5)}, ${latLng.lng.toFixed(5)}`;
 });
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const resetUserForm = () => {
   resetAddressField();
   AD_FORM.reset();
   mainMarker.setLatLng(DEFAULT_ADDRESS);
   map.setView(DEFAULT_ADDRESS);
-});
-
-const createCards = (cardsArray) => {
-  cardsArray.forEach(({ author, location, offer}) => {
-    const icon = L.icon({
-      iconUrl: REGULAR_MARKER.url,
-      iconSize: [REGULAR_MARKER.size.width, REGULAR_MARKER.size.height],
-      iconAnchor: [REGULAR_MARKER.ancor.width, REGULAR_MARKER.ancor.height],
-    });
-    const cardMarker = L.marker(
-      location,
-      {
-        icon,
-      },
-    );
-
-    cardMarker
-      .addTo(map)
-      .bindPopup(
-        createCard({author, offer}),
-        {
-          keepInView: true,
-        },
-      );
-  });
 };
 
-getData(
-  (cardsArray) => createCards(cardsArray),
-  () => showAlert('Ошибка при заггрузке данных'),
-);
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetUserForm();
+});
 
-export {createCards};
+export {createCards, renderFiltredCards, resetUserForm };
+

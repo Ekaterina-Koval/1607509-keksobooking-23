@@ -1,6 +1,6 @@
 import { sendData } from '../map/api.js';
 import { setDisabledValue } from '../utils/set-disabled-value.js';
-import {showAlert} from '../utils/show-alert.js';
+import { showSuccessPopup, showErrorPopup } from '../utils/popupEvents.js';
 
 const MATCHING_FORM_FIELDS = {
   title: {
@@ -43,9 +43,9 @@ const roomsField = AD_FORM.querySelector('select[name=rooms]');
 const capacityField = AD_FORM.querySelector('select[name=capacity]');
 const capacityFieldOptions = capacityField.querySelectorAll('option');
 //const featuresField = AD_FORM.querySelector('input[name=features]');
-//const discriptionField = AD_FORM.querySelector('textarea[name=discription]');
 //const imagesField = AD_FORM.querySelector('input[name=images]');
 const resetButton = AD_FORM.querySelector('.ad-form__reset');
+
 
 titleField.addEventListener('input', () => {
   const titleFieldValueLength = titleField.value.length;
@@ -60,7 +60,6 @@ titleField.addEventListener('input', () => {
   }
   titleField.reportValidity();
 });
-
 addressField.setAttribute('readonly', '');
 
 priceField.setAttribute('min', MATCHING_FORM_FIELDS.price.min.flat);
@@ -82,9 +81,9 @@ typeField.addEventListener('change', () => {
 priceField.addEventListener('input', () => {
   const priceFieldValue = priceField.value;
   if (priceFieldValue > MATCHING_FORM_FIELDS.price.max) {
-    priceField.setCustomValidity(`Цена за начь не должна превышать ${MATCHING_FORM_FIELDS.price.max}`);
-  } else if (priceFieldValue < priceField.min) {
-    priceField.setCustomValidity(`Цена за начь должна быть больше ${priceField.min}`);
+    priceField.setCustomValidity(`Цена за ночь не должна превышать ${MATCHING_FORM_FIELDS.price.max}`);
+  } else if (priceFieldValue < priceField.min && priceFieldValue !== 0) {
+    priceField.setCustomValidity(`Цена за ночь должна быть больше ${priceField.min}`);
   } else {
     priceField.setCustomValidity('');
   }
@@ -93,6 +92,9 @@ priceField.addEventListener('input', () => {
 
 capacityFieldOptions[0].removeAttribute('selected');
 capacityFieldOptions[2].setAttribute('selected', '');
+capacityFieldOptions[0].setAttribute('disabled', '');
+capacityFieldOptions[1].setAttribute('disabled', '');
+capacityFieldOptions[3].setAttribute('disabled', '');
 
 roomsField.addEventListener('change', () => {
   const roomsFieldValue = roomsField.value;
@@ -121,15 +123,18 @@ const changeTimeField = (variableField, dependentField) => {
 changeTimeField(timeInField, timeOutFieldOptions);
 changeTimeField(timeOutField, timeInFieldOptions);
 
-const setUserFormSubmit = (onSuccess) => {
+const setUserFormSubmit = () => {
   AD_FORM.addEventListener('submit', (evt) => {
     evt.preventDefault();
+
     sendData(
-      () => onSuccess(),
-      () => showAlert('Не удалось отправить форму.Попробуйте ещё раз'),
-      new FormData(evt.terget),
+      () => showSuccessPopup(),
+      () => showErrorPopup(),
+      new FormData(evt.target),
     );
   });
 };
 
-export { addressField, resetButton, AD_FORM, setUserFormSubmit };
+setUserFormSubmit();
+
+export {addressField, resetButton, AD_FORM};
