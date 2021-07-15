@@ -42,8 +42,6 @@ const timeOutFieldOptions = timeOutField.querySelectorAll('option');
 const roomsField = AD_FORM.querySelector('select[name=rooms]');
 const capacityField = AD_FORM.querySelector('select[name=capacity]');
 const capacityFieldOptions = capacityField.querySelectorAll('option');
-//const featuresField = AD_FORM.querySelector('input[name=features]');
-//const imagesField = AD_FORM.querySelector('input[name=images]');
 const resetButton = AD_FORM.querySelector('.ad-form__reset');
 
 
@@ -77,7 +75,6 @@ typeField.addEventListener('change', () => {
   });
 });
 
-// Добавить проверку на не число!
 priceField.addEventListener('input', () => {
   const priceFieldValue = priceField.value;
   if (priceFieldValue > MATCHING_FORM_FIELDS.price.max) {

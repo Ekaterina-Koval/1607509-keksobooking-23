@@ -7,7 +7,6 @@ import { showAlert } from '../utils/show-alert.js';
 import { filteredData } from './filter.js';
 import { userFilterDataArray } from './api.js';
 
-
 const DEFAULT_ADDRESS = {
   lat: 35.68950,
   lng: 139.69200,
@@ -155,4 +154,3 @@ resetButton.addEventListener('click', (evt) => {
 });
 
 export {createCards, renderFiltredCards, resetUserForm };
-

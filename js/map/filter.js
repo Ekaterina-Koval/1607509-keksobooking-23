@@ -83,4 +83,3 @@ const setFilterChangeHandler = () => {
 setFilterChangeHandler();
 
 export { setFilterChangeHandler, filteredData };
-
